@@ -24,3 +24,13 @@ $(document).ready(function () {
         }
     }
 });
+
+function hanoi(n, from, to, via) {
+    if (n === 0) return;
+
+    hanoi(n - 1, from, via, to);
+
+    moveDisk(from, to);
+
+    hanoi(n - 1, via, to, from);
+}
