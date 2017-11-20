@@ -19,8 +19,6 @@ $(document).ready(function () {
     game.solve(TOWER.MAIN, TOWER.RESULT, [TOWER.VIA]);
 
     renderTowerState(towerState);
-
-    console.log(moveHitsory);
 });
 
 class MoveDistHistory
@@ -52,19 +50,18 @@ class Tower
 
     /**
      *
-     * @param {Tower} from
-     * @returns {boolean}
+     * @returns {number}
      */
-    canMoveFrom(from) {
-        return this.disks.length === 0 || this.getTop() > from.getTop();
+    getTop() {
+        return this.disks[this.disks.length - 1];
     }
 
     /**
      *
-     * @returns {number}
+     * @returns {boolean}
      */
-    getTop() {
-        return this.disks[length - 1];
+    isEmpty() {
+        return this.disks.length === 0;
     }
 }
 
@@ -88,7 +85,17 @@ class Game
      */
     solve(fromTowerIndex, toTowerIndex, viaTowerIndexes)
     {
-        this.moveList(fromTowerIndex, viaTowerIndexes.concat([toTowerIndex]));
+        this.moveList(
+            fromTowerIndex,
+            viaTowerIndexes.concat([toTowerIndex])
+        );
+
+        const viaTowerIndexesCopy = viaTowerIndexes.slice();
+
+        this.moveList(
+            viaTowerIndexesCopy.shift(),
+            viaTowerIndexesCopy.concat([toTowerIndex, fromTowerIndex])
+        );
     }
 
     /**
@@ -100,9 +107,8 @@ class Game
         for (let index = 0; index < toTowerIndexes.length; ++index) {
             if (toTowerIndexes.hasOwnProperty(index)) {
                 const toTowerIndex = toTowerIndexes[index];
-                const toTower = this.towerState[toTowerIndex];
 
-                if (toTower.canMoveFrom(toTower)) {
+                if (this.canMoveBetween(fromTowerIndex, toTowerIndex)) {
                     this.move(fromTowerIndex, toTowerIndex)
                 }
             }
@@ -119,6 +125,19 @@ class Game
         this.towerState[toTowerIndex].disks.push(disk);
         this.history.log(fromTowerIndex, toTowerIndex, disk);
     }
+
+    /**
+     *
+     * @param {number} fromTowerIndex
+     * @param {number} toTowerIndex
+     * @returns {boolean}
+     */
+    canMoveBetween(fromTowerIndex, toTowerIndex) {
+        const toTower = this.towerState[toTowerIndex];
+        const fromTower = this.towerState[fromTowerIndex];
+        return toTower.isEmpty() || toTower.getTop() > fromTower.getTop();
+    }
+
 }
 
 function renderTowerState(towerState) {
