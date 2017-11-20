@@ -16,7 +16,7 @@ $(document).ready(function () {
     const moveHitsory = new MoveDistHistory();
     const game = new Game(towerState, moveHitsory);
 
-    game.moveList(TOWER.MAIN, [TOWER.VIA, TOWER.RESULT]);
+    game.solve(TOWER.MAIN, TOWER.RESULT, [TOWER.VIA]);
 
     renderTowerState(towerState);
 
@@ -84,11 +84,11 @@ class Game
      *
      * @param {number} fromTowerIndex
      * @param {number} toTowerIndex
+     * @param {number[]} viaTowerIndexes
      */
-    move(fromTowerIndex, toTowerIndex) {
-        const disk = this.towerState[fromTowerIndex].disks.pop();
-        this.towerState[toTowerIndex].disks.push(disk);
-        this.history.log(fromTowerIndex, toTowerIndex, disk);
+    solve(fromTowerIndex, toTowerIndex, viaTowerIndexes)
+    {
+        this.moveList(fromTowerIndex, viaTowerIndexes.concat([toTowerIndex]));
     }
 
     /**
@@ -107,6 +107,17 @@ class Game
                 }
             }
         }
+    }
+
+    /**
+     *
+     * @param {number} fromTowerIndex
+     * @param {number} toTowerIndex
+     */
+    move(fromTowerIndex, toTowerIndex) {
+        const disk = this.towerState[fromTowerIndex].disks.pop();
+        this.towerState[toTowerIndex].disks.push(disk);
+        this.history.log(fromTowerIndex, toTowerIndex, disk);
     }
 }
 
