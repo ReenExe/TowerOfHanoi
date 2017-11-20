@@ -7,17 +7,27 @@ $(document).ready(function () {
     };
 
     renderTowerState(towerState);
+
+    function moveDisk(from, to) {
+        towerState[to].push(towerState[from].shift());
+
+        console.log(JSON.stringify(towerState));
+
+        renderTowerState(towerState);
+    }
+
+    function hanoi(n, from, to, via) {
+        if (n === 0) return;
+
+        hanoi(n - 1, from, via, to);
+
+        moveDisk(from, to);
+
+        hanoi(n - 1, via, to, from);
+    }
+
+    hanoi(towerState[1].length, 1, 2, 3);
 });
-
-function hanoi(n, from, to, via) {
-    if (n === 0) return;
-
-    hanoi(n - 1, from, via, to);
-
-    moveDisk(from, to);
-
-    hanoi(n - 1, via, to, from);
-}
 
 function renderTowerState(towerState) {
     for (let towerIndex in towerState) {
