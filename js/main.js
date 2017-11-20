@@ -1,33 +1,76 @@
 $(document).ready(function () {
+    const TOWER = {
+        MAIN: 1,
+        VIA: 2,
+        RESULT: 3
+    };
+
     const towerState = {
-        1: [1, 2, 3],
-        2: [],
-        3: [],
-        4: []
+        [TOWER.MAIN]: new Tower([3, 2, 1]),
+        [TOWER.VIA]: new Tower([]),
+        [TOWER.RESULT]: new Tower([])
     };
 
     renderTowerState(towerState);
 
-    function moveDisk(from, to) {
-        towerState[to].push(towerState[from].shift());
+    const game = new Game();
 
-        console.log(JSON.stringify(towerState));
+    game.moveList(towerState[TOWER.MAIN], [towerState[TOWER.VIA], towerState[TOWER.RESULT]]);
 
-        renderTowerState(towerState);
-    }
-
-    function hanoi(n, from, to, via) {
-        if (n === 0) return;
-
-        hanoi(n - 1, from, via, to);
-
-        moveDisk(from, to);
-
-        hanoi(n - 1, via, to, from);
-    }
-
-    hanoi(towerState[1].length, 1, 2, 3);
+    renderTowerState(towerState);
 });
+
+/**
+ *
+ * @param disks {Array}
+ * @constructor
+ */
+function Tower(disks) {
+    this.disks = disks;
+}
+
+/**
+ *
+ * @param from {Tower}
+ * @returns {boolean}
+ */
+Tower.prototype.canMoveFrom = function (from) {
+    return this.disks.length === 0 || this.getTop() > from.getTop();
+};
+
+Tower.prototype.getTop = function () {
+    return this.disks[length - 1];
+};
+
+function Game() {
+
+}
+
+/**
+ *
+ * @param fromTower {Tower}
+ * @param toTower {Tower}
+ */
+Game.prototype.move = function (fromTower, toTower) {
+    toTower.disks.push(fromTower.disks.pop());
+};
+
+/**
+ *
+ * @param fromTower {Tower}
+ * @param toTowers {Tower[]}
+ */
+Game.prototype.moveList = function (fromTower, toTowers) {
+    for (let towerIndex = 0; towerIndex < toTowers.length; ++towerIndex) {
+        if (toTowers.hasOwnProperty(towerIndex)) {
+            const toTower = toTowers[towerIndex];
+
+            if (toTower.canMoveFrom(fromTower)) {
+                this.move(fromTower, toTower)
+            }
+        }
+    }
+};
 
 function renderTowerState(towerState) {
     for (let towerIndex in towerState) {
@@ -36,12 +79,12 @@ function renderTowerState(towerState) {
 
             $tower.html('');
 
-            const disks = towerState[towerIndex];
+            const disks = towerState[towerIndex].disks;
 
             for (let diskIndex = 0; diskIndex < disks.length; ++diskIndex) {
                 const disk = disks[diskIndex];
 
-                $tower.prepend(getDisk(disk));
+                $tower.append(getDisk(disk));
             }
         }
     }
