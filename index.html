@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Towers of Hanoi - HTML5, JS and SCSS Game</title>
+    <title>Towers of Hanoi</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link rel="stylesheet prefetch" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
@@ -13,24 +13,18 @@
 </head>
 <body>
     <div id="canves">
-        <div class="restart"><i class="fa fa-repeat"></i></div>
-        <div class="curtain"></div>
-        <ul id="score-panel">
-            <li><i class="fa fa-star"></i></li>
-            <li><i class="fa fa-star"></i></li>
-            <li><i class="fa fa-star"></i></li>
-            <li>
-                <h1><span id="moves-num"></span><span> Moves</span></h1>
-            </li>
+        <ul class="tower" id="tower-1">
+            <li class="disk disk-7"></li>
+            <li class="disk disk-6"></li>
+            <li class="disk disk-5"></li>
+            <li class="disk disk-4"></li>
+            <li class="disk disk-3"></li>
+            <li class="disk disk-2"></li>
+            <li class="disk disk-1"></li>
         </ul>
-        <ul class="tower" id="tower-1"></ul>
         <ul class="tower" id="tower-2"></ul>
         <ul class="tower" id="tower-3"></ul>
         <ul class="tower" id="tower-4"></ul>
     </div>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/sweetalert2/3.0.3/sweetalert2.min.js"></script>
-    <script src="js/index.js"></script>
 </body>
 </html>
