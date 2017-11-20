@@ -13,64 +13,102 @@ $(document).ready(function () {
 
     renderTowerState(towerState);
 
-    const game = new Game();
+    const moveHitsory = new MoveDistHistory();
+    const game = new Game(towerState, moveHitsory);
 
-    game.moveList(towerState[TOWER.MAIN], [towerState[TOWER.VIA], towerState[TOWER.RESULT]]);
+    game.moveList(TOWER.MAIN, [TOWER.VIA, TOWER.RESULT]);
 
     renderTowerState(towerState);
+
+    console.log(moveHitsory);
 });
 
-/**
- *
- * @param disks {Array}
- * @constructor
- */
-function Tower(disks) {
-    this.disks = disks;
+class MoveDistHistory
+{
+    constructor() {
+        this.list = []
+    }
+
+    /**
+     *
+     * @param {number} fromIndex
+     * @param {number} toIndex
+     * @param {number} dist
+     */
+    log(fromIndex, toIndex, dist) {
+        this.list.push([fromIndex, toIndex, dist]);
+    }
 }
 
-/**
- *
- * @param from {Tower}
- * @returns {boolean}
- */
-Tower.prototype.canMoveFrom = function (from) {
-    return this.disks.length === 0 || this.getTop() > from.getTop();
-};
+class Tower
+{
+    /**
+     *
+     * @param {number[]} disks
+     */
+    constructor(disks) {
+        this.disks = disks;
+    }
 
-Tower.prototype.getTop = function () {
-    return this.disks[length - 1];
-};
+    /**
+     *
+     * @param {Tower} from
+     * @returns {boolean}
+     */
+    canMoveFrom(from) {
+        return this.disks.length === 0 || this.getTop() > from.getTop();
+    }
 
-function Game() {
-
+    /**
+     *
+     * @returns {number}
+     */
+    getTop() {
+        return this.disks[length - 1];
+    }
 }
 
-/**
- *
- * @param fromTower {Tower}
- * @param toTower {Tower}
- */
-Game.prototype.move = function (fromTower, toTower) {
-    toTower.disks.push(fromTower.disks.pop());
-};
+class Game
+{
+    /**
+     *
+     * @param {Tower[]} towerState
+     * @param history
+     */
+    constructor(towerState, history) {
+        this.towerState = towerState;
+        this.history = history;
+    }
 
-/**
- *
- * @param fromTower {Tower}
- * @param toTowers {Tower[]}
- */
-Game.prototype.moveList = function (fromTower, toTowers) {
-    for (let towerIndex = 0; towerIndex < toTowers.length; ++towerIndex) {
-        if (toTowers.hasOwnProperty(towerIndex)) {
-            const toTower = toTowers[towerIndex];
+    /**
+     *
+     * @param {number} fromTowerIndex
+     * @param {number} toTowerIndex
+     */
+    move(fromTowerIndex, toTowerIndex) {
+        const disk = this.towerState[fromTowerIndex].disks.pop();
+        this.towerState[toTowerIndex].disks.push(disk);
+        this.history.log(fromTowerIndex, toTowerIndex, disk);
+    }
 
-            if (toTower.canMoveFrom(fromTower)) {
-                this.move(fromTower, toTower)
+    /**
+     *
+     * @param {number} fromTowerIndex
+     * @param {number[]} toTowerIndexes
+     */
+    moveList(fromTowerIndex, toTowerIndexes) {
+        for (let index = 0; index < toTowerIndexes.length; ++index) {
+            if (toTowerIndexes.hasOwnProperty(index)) {
+                const toTowerIndex = toTowerIndexes[index];
+                const toTower = this.towerState[toTowerIndex];
+
+                if (toTower.canMoveFrom(toTower)) {
+                    this.move(fromTowerIndex, toTowerIndex)
+                }
             }
         }
     }
-};
+}
 
 function renderTowerState(towerState) {
     for (let towerIndex in towerState) {
