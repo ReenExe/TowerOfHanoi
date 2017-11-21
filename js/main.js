@@ -58,7 +58,6 @@ class MoveDist
     getValue() {
         return this.value;
     }
-
 }
 
 class MoveDiskHistory
@@ -203,7 +202,6 @@ function findDisk(index) {
 }
 
 function renderTowerState(towerState) {
-
     for (let towerIndex in towerState) {
         if (towerState.hasOwnProperty(towerIndex)) {
             const $tower = findTower(towerIndex);
@@ -263,7 +261,7 @@ function animateTowerStateByHistory(moveHitsory) {
         } else {
             clearInterval(interval);
         }
-    }, 1000);
+    }, 250);
 }
 
 function getDiskTemplate(index) {
