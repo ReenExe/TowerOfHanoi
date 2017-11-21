@@ -1,3 +1,20 @@
+const TOWER = {
+    START: 1,
+    VIA: 2,
+    RESULT: 3
+};
+
+class TowerState
+{
+    static getDefault() {
+        return {
+            [TOWER.START]: new Tower([3, 2, 1]),
+            [TOWER.VIA]: new Tower([]),
+            [TOWER.RESULT]: new Tower([])
+        };
+    }
+}
+
 class MoveDist
 {
     /**
