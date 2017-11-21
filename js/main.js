@@ -13,15 +13,55 @@ $(document).ready(function () {
 
     renderTowerState(towerState);
 
-    const moveHitsory = new MoveDistHistory();
+    const moveHitsory = new MoveDiskHistory();
     const game = new Game(towerState, moveHitsory);
 
     game.solve(TOWER.MAIN, TOWER.RESULT, [TOWER.VIA]);
 
-    renderTowerState(towerState);
+    animateTowerStateByHistory(moveHitsory);
 });
 
-class MoveDistHistory
+class MoveDist
+{
+    /**
+     *
+     * @param {number} from
+     * @param {number} to
+     * @param {number} value
+     */
+    constructor(from, to, value) {
+        this.from = from;
+        this.to = to;
+        this.value = value;
+    }
+
+    /**
+     *
+     * @returns {number}
+     */
+    getFrom() {
+        return this.from;
+    }
+
+    /**
+     *
+     * @returns {number}
+     */
+    getTo() {
+        return this.to;
+    }
+
+    /**
+     *
+     * @returns {number}
+     */
+    getValue() {
+        return this.value;
+    }
+
+}
+
+class MoveDiskHistory
 {
     constructor() {
         this.list = []
@@ -34,7 +74,11 @@ class MoveDistHistory
      * @param {number} dist
      */
     log(fromIndex, toIndex, dist) {
-        this.list.push([fromIndex, toIndex, dist]);
+        this.list.push(new MoveDist(fromIndex, toIndex, dist));
+    }
+
+    getStored() {
+        return this.list;
     }
 }
 
@@ -140,10 +184,29 @@ class Game
 
 }
 
+/**
+ *
+ * @param index
+ * @returns {jQuery}
+ */
+function findTower(index) {
+    return $(`#tower-${index}`);
+}
+
+/**
+ *
+ * @param index
+ * @returns {jQuery}
+ */
+function findDisk(index) {
+    return $(`.disk-${index}`);
+}
+
 function renderTowerState(towerState) {
+
     for (let towerIndex in towerState) {
         if (towerState.hasOwnProperty(towerIndex)) {
-            const $tower = $(`#tower-${towerIndex}`);
+            const $tower = findTower(towerIndex);
 
             $tower.html('');
 
@@ -152,12 +215,57 @@ function renderTowerState(towerState) {
             for (let diskIndex = 0; diskIndex < disks.length; ++diskIndex) {
                 const disk = disks[diskIndex];
 
-                $tower.append(getDisk(disk));
+                $tower.append(getDiskTemplate(disk));
             }
         }
     }
 }
 
-function getDisk(index) {
+/**
+ *
+ * @param {MoveDist} moveDist
+ */
+function getMoveDiskFrames(moveDist) {
+    const $disk = findDisk(moveDist.getValue());
+
+    return [
+        function () {
+            $disk.addClass('hold');
+        },
+        function () {
+            const $tower = findTower(moveDist.getTo());
+            $tower.append($disk);
+        },
+        function () {
+            $disk.removeClass('hold');
+        }
+    ];
+}
+
+/**
+ *
+ * @param {MoveDiskHistory} moveHitsory
+ */
+function animateTowerStateByHistory(moveHitsory) {
+    const list = moveHitsory.getStored();
+    const frames = [];
+    for (let index = 0; index < list.length; ++index) {
+        frames.push(...getMoveDiskFrames(list[index]));
+    }
+    let frameIndex = 0;
+
+    const interval = setInterval(function () {
+        if (frameIndex < frames.length) {
+            const frame = frames[frameIndex];
+            frame();
+
+            ++frameIndex;
+        } else {
+            clearInterval(interval);
+        }
+    }, 1000);
+}
+
+function getDiskTemplate(index) {
     return `<li class="disk disk-${index}"></li>`;
 }
