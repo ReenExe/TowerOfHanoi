@@ -126,8 +126,7 @@ class Game
      * @param {number} toTowerIndex
      * @param {number[]} viaTowerIndexes
      */
-    solve(fromTowerIndex, toTowerIndex, viaTowerIndexes)
-    {
+    solve(fromTowerIndex, toTowerIndex, viaTowerIndexes) {
         this.moveList(
             fromTowerIndex,
             viaTowerIndexes.concat([toTowerIndex])
