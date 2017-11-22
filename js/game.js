@@ -168,26 +168,11 @@ class Game
     /**
      *
      * @param {number} fromTowerIndex
-     * @param {number[]} toTowerIndexes
-     */
-    moveList(fromTowerIndex, toTowerIndexes) {
-        for (let index = 0; index < toTowerIndexes.length; ++index) {
-            if (toTowerIndexes.hasOwnProperty(index)) {
-                const toTowerIndex = toTowerIndexes[index];
-
-                this.tryMove(fromTowerIndex, toTowerIndex);
-            }
-        }
-    }
-
-    /**
-     *
-     * @param {number} fromTowerIndex
      * @param {number} toTowerIndex
      */
     tryMove(fromTowerIndex, toTowerIndex) {
         if (this.canMoveBetween(fromTowerIndex, toTowerIndex)) {
-            this.move(fromTowerIndex, toTowerIndex)
+            this.move(fromTowerIndex, toTowerIndex);
 
             return true;
         }

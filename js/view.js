@@ -58,6 +58,7 @@ function getMoveDiskFrames(moveDist) {
 /**
  *
  * @param {MoveDiskHistory} moveHitsory
+ * @param {number} speed
  */
 function animateTowerStateByHistory(moveHitsory, speed) {
     const list = moveHitsory.getStored();
@@ -65,8 +66,8 @@ function animateTowerStateByHistory(moveHitsory, speed) {
     for (let index = 0; index < list.length; ++index) {
         frames.push(...getMoveDiskFrames(list[index]));
     }
-    let frameIndex = 0;
 
+    let frameIndex = 0;
     const interval = setInterval(function () {
         if (frameIndex < frames.length) {
             const frame = frames[frameIndex];
