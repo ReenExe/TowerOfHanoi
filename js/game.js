@@ -7,8 +7,17 @@ const TOWER = {
 class TowerState
 {
     static getDefault() {
+        return TowerState.getBySize(3);
+    }
+
+    static getBySize(size) {
+        const disks = [];
+        for (let current = size; current > 0; --current) {
+            disks.push(current);
+        }
+
         return {
-            [TOWER.START]: new Tower([3, 2, 1]),
+            [TOWER.START]: new Tower(disks),
             [TOWER.VIA]: new Tower([]),
             [TOWER.RESULT]: new Tower([])
         };
@@ -129,6 +138,8 @@ class Game
      * @param {number[]} viaTowerIndexes
      */
     solve(fromTowerIndex, toTowerIndex, viaTowerIndexes) {
+        const size = this.towerState[fromTowerIndex].getSize();
+
         return this.moveTrinity(fromTowerIndex, toTowerIndex, viaTowerIndexes);
     }
 
