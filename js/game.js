@@ -135,7 +135,9 @@ class Game
     }
 
     moveDouble(fromTowerIndex, toTowerIndex, viaTowerIndex) {
-
+        return this.tryMove(fromTowerIndex, viaTowerIndex)
+            && this.tryMove(fromTowerIndex, toTowerIndex)
+            && this.tryMove(viaTowerIndex, toTowerIndex);
     }
 
     /**
@@ -148,11 +150,24 @@ class Game
             if (toTowerIndexes.hasOwnProperty(index)) {
                 const toTowerIndex = toTowerIndexes[index];
 
-                if (this.canMoveBetween(fromTowerIndex, toTowerIndex)) {
-                    this.move(fromTowerIndex, toTowerIndex)
-                }
+                this.tryMove(fromTowerIndex, toTowerIndex);
             }
         }
+    }
+
+    /**
+     *
+     * @param {number} fromTowerIndex
+     * @param {number} toTowerIndex
+     */
+    tryMove(fromTowerIndex, toTowerIndex) {
+        if (this.canMoveBetween(fromTowerIndex, toTowerIndex)) {
+            this.move(fromTowerIndex, toTowerIndex)
+
+            return true;
+        }
+
+        return false;
     }
 
     /**
