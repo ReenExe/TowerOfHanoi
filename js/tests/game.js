@@ -1,4 +1,4 @@
-QUnit.test( 'From `begin state` canMoveBetween & move & asset state', function( assert ) {
+QUnit.test('Game `begin state` canMoveBetween & move & asset state', function( assert ) {
     const towerState = TowerState.getDefault();
     const moveHitsory = new MoveDiskHistory();
 
@@ -12,4 +12,17 @@ QUnit.test( 'From `begin state` canMoveBetween & move & asset state', function( 
     assert.deepEqual(towerState[TOWER.START].disks, [3]);
     assert.deepEqual(towerState[TOWER.VIA].disks, [2]);
     assert.deepEqual(towerState[TOWER.RESULT].disks, [1]);
+});
+
+QUnit.test('Game double move', function (assert) {
+    const towerState = TowerState.getDefault();
+    const moveHitsory = new MoveDiskHistory();
+
+    const game = new Game(towerState, moveHitsory);
+
+    assert.ok(game.moveDouble(TOWER.START, TOWER.RESULT, TOWER.VIA));
+
+    assert.deepEqual(towerState[TOWER.START].disks, [3]);
+    assert.deepEqual(towerState[TOWER.VIA].disks, []);
+    assert.deepEqual(towerState[TOWER.RESULT].disks, [2, 1]);
 });

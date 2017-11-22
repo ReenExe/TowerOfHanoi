@@ -134,6 +134,10 @@ class Game
         );
     }
 
+    moveDouble(fromTowerIndex, toTowerIndex, viaTowerIndex) {
+
+    }
+
     /**
      *
      * @param {number} fromTowerIndex
