@@ -121,17 +121,7 @@ class Game
      * @param {number[]} viaTowerIndexes
      */
     solve(fromTowerIndex, toTowerIndex, viaTowerIndexes) {
-        this.moveList(
-            fromTowerIndex,
-            viaTowerIndexes.concat([toTowerIndex])
-        );
-
-        const viaTowerIndexesCopy = viaTowerIndexes.slice();
-
-        this.moveList(
-            viaTowerIndexesCopy.shift(),
-            viaTowerIndexesCopy.concat([toTowerIndex, fromTowerIndex])
-        );
+        return this.moveTrinity(fromTowerIndex, toTowerIndex, viaTowerIndexes);
     }
 
     moveDouble(fromTowerIndex, toTowerIndex, viaTowerIndex) {
