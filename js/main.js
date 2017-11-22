@@ -1,12 +1,12 @@
 $(document).ready(function () {
-    const towerState = TowerState.getDefault();
+    const towerState = TowerState.getBySize(7);
 
     renderTowerState(towerState);
 
     const moveHitsory = new MoveDiskHistory();
     const game = new Game(towerState, moveHitsory);
 
-    game.solve(TOWER.START, TOWER.RESULT, [TOWER.VIA]);
+    game.solve(TOWER.START, TOWER.RESULT, TOWER.VIA);
 
-    animateTowerStateByHistory(moveHitsory);
+    animateTowerStateByHistory(moveHitsory, 100);
 });

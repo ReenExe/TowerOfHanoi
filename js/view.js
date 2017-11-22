@@ -59,7 +59,7 @@ function getMoveDiskFrames(moveDist) {
  *
  * @param {MoveDiskHistory} moveHitsory
  */
-function animateTowerStateByHistory(moveHitsory) {
+function animateTowerStateByHistory(moveHitsory, speed) {
     const list = moveHitsory.getStored();
     const frames = [];
     for (let index = 0; index < list.length; ++index) {
@@ -76,7 +76,7 @@ function animateTowerStateByHistory(moveHitsory) {
         } else {
             clearInterval(interval);
         }
-    }, 250);
+    }, speed);
 }
 
 function getDiskTemplate(index) {
