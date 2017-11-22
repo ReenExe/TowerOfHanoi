@@ -140,6 +140,12 @@ class Game
             && this.tryMove(viaTowerIndex, toTowerIndex);
     }
 
+    moveTrinity(fromTowerIndex, toTowerIndex, viaTowerIndex) {
+        return this.moveDouble(fromTowerIndex, viaTowerIndex, toTowerIndex)
+            && this.tryMove(fromTowerIndex, toTowerIndex)
+            && this.moveDouble(viaTowerIndex, toTowerIndex, fromTowerIndex);
+    }
+
     /**
      *
      * @param {number} fromTowerIndex
