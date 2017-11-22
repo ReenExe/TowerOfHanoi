@@ -41,14 +41,14 @@ QUnit.test('Game trinity move', function (assert) {
 });
 
 QUnit.test('Game solve', function (assert) {
-    const towerState = TowerState.getBySize(5);
+    const towerState = TowerState.getBySize(7);
     const moveHitsory = new MoveDiskHistory();
 
     const game = new Game(towerState, moveHitsory);
 
-    assert.ok(game.moveTrinity(TOWER.START, TOWER.RESULT, TOWER.VIA));
+    assert.ok(game.solve(TOWER.START, TOWER.RESULT, TOWER.VIA));
 
     assert.deepEqual(towerState[TOWER.START].disks, []);
     assert.deepEqual(towerState[TOWER.VIA].disks, []);
-    assert.deepEqual(towerState[TOWER.RESULT].disks, [5, 4, 3, 2, 1]);
+    assert.deepEqual(towerState[TOWER.RESULT].disks, [7, 6, 5, 4, 3, 2, 1]);
 });

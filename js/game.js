@@ -135,12 +135,22 @@ class Game
      *
      * @param {number} fromTowerIndex
      * @param {number} toTowerIndex
-     * @param {number[]} viaTowerIndexes
+     * @param {number} viaTowerIndex
      */
-    solve(fromTowerIndex, toTowerIndex, viaTowerIndexes) {
+    solve(fromTowerIndex, toTowerIndex, viaTowerIndex) {
         const size = this.towerState[fromTowerIndex].getSize();
 
-        return this.moveTrinity(fromTowerIndex, toTowerIndex, viaTowerIndexes);
+        return this.solveBySize(fromTowerIndex, toTowerIndex, viaTowerIndex, size);
+    }
+
+    solveBySize(fromTowerIndex, toTowerIndex, viaTowerIndex, size) {
+        if (size === 3) {
+            return this.moveTrinity(fromTowerIndex, toTowerIndex, viaTowerIndex);
+        }
+
+        return this.solveBySize(fromTowerIndex, viaTowerIndex, toTowerIndex, size - 1)
+            && this.tryMove(fromTowerIndex, toTowerIndex)
+            && this.solveBySize(viaTowerIndex, toTowerIndex, fromTowerIndex, size - 1);
     }
 
     moveDouble(fromTowerIndex, toTowerIndex, viaTowerIndex) {
