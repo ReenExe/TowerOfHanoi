@@ -95,10 +95,18 @@ class Tower
 
     /**
      *
+     * @returns {Number}
+     */
+    getSize() {
+        return this.disks.length;
+    }
+
+    /**
+     *
      * @returns {boolean}
      */
     isEmpty() {
-        return this.disks.length === 0;
+        return this.getSize() === 0;
     }
 }
 
