@@ -9,4 +9,6 @@ $(document).ready(function () {
     game.solve(TOWER.START, TOWER.RESULT, TOWER.VIA);
 
     animateTowerStateByHistory(moveHitsory, 100);
+
+    console.log(JSON.stringify(moveHitsory.getStored()));
 });
