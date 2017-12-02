@@ -20,7 +20,7 @@ QUnit.test('Game double move', function (assert) {
 
     const game = new Game(towerState, moveHitsory);
 
-    assert.ok(game.moveDouble(TOWER.START, TOWER.RESULT, TOWER.VIA));
+    assert.ok(game.solveBySize(TOWER.START, TOWER.RESULT, TOWER.VIA, 2));
 
     assert.deepEqual(towerState[TOWER.START].disks, [3]);
     assert.deepEqual(towerState[TOWER.VIA].disks, []);
@@ -33,7 +33,7 @@ QUnit.test('Game trinity move', function (assert) {
 
     const game = new Game(towerState, moveHitsory);
 
-    assert.ok(game.moveTrinity(TOWER.START, TOWER.RESULT, TOWER.VIA));
+    assert.ok(game.solveBySize(TOWER.START, TOWER.RESULT, TOWER.VIA, 3));
 
     assert.deepEqual(towerState[TOWER.START].disks, []);
     assert.deepEqual(towerState[TOWER.VIA].disks, []);

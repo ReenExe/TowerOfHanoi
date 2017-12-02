@@ -36,7 +36,7 @@ function renderTowerState(towerState) {
 
 /**
  *
- * @param {MoveDist} moveDist
+ * @param {MoveDisk} moveDist
  */
 function getMoveDiskFrames(moveDist) {
     const $disk = findDisk(moveDist.getValue());

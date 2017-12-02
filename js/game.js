@@ -24,7 +24,7 @@ class TowerState
     }
 }
 
-class MoveDist
+class MoveDisk
 {
     /**
      *
@@ -73,10 +73,10 @@ class MoveDiskHistory
      *
      * @param {number} fromIndex
      * @param {number} toIndex
-     * @param {number} dist
+     * @param {number} disk
      */
-    log(fromIndex, toIndex, dist) {
-        this.list.push(new MoveDist(fromIndex, toIndex, dist));
+    log(fromIndex, toIndex, disk) {
+        this.list.push(new MoveDisk(fromIndex, toIndex, disk));
     }
 
     getStored() {
@@ -144,25 +144,13 @@ class Game
     }
 
     solveBySize(fromTowerIndex, toTowerIndex, viaTowerIndex, size) {
-        if (size === 3) {
-            return this.moveTrinity(fromTowerIndex, toTowerIndex, viaTowerIndex);
+        if (size === 0) {
+            return true;
         }
 
         return this.solveBySize(fromTowerIndex, viaTowerIndex, toTowerIndex, size - 1)
             && this.tryMove(fromTowerIndex, toTowerIndex)
             && this.solveBySize(viaTowerIndex, toTowerIndex, fromTowerIndex, size - 1);
-    }
-
-    moveDouble(fromTowerIndex, toTowerIndex, viaTowerIndex) {
-        return this.tryMove(fromTowerIndex, viaTowerIndex)
-            && this.tryMove(fromTowerIndex, toTowerIndex)
-            && this.tryMove(viaTowerIndex, toTowerIndex);
-    }
-
-    moveTrinity(fromTowerIndex, toTowerIndex, viaTowerIndex) {
-        return this.moveDouble(fromTowerIndex, viaTowerIndex, toTowerIndex)
-            && this.tryMove(fromTowerIndex, toTowerIndex)
-            && this.moveDouble(viaTowerIndex, toTowerIndex, fromTowerIndex);
     }
 
     /**
