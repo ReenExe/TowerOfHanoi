@@ -1,5 +1,5 @@
 QUnit.test('Game `begin state` canMoveBetween & move & asset state', function( assert ) {
-    const towerState = TowerState.getDefault();
+    const towerState = TowerState.getBySize(3);
     const moveHitsory = new MoveDiskHistory();
 
     const game = new Game(towerState, moveHitsory);
@@ -15,7 +15,7 @@ QUnit.test('Game `begin state` canMoveBetween & move & asset state', function( a
 });
 
 QUnit.test('Game double move', function (assert) {
-    const towerState = TowerState.getDefault();
+    const towerState = TowerState.getBySize(3);
     const moveHitsory = new MoveDiskHistory();
 
     const game = new Game(towerState, moveHitsory);
@@ -28,7 +28,7 @@ QUnit.test('Game double move', function (assert) {
 });
 
 QUnit.test('Game trinity move', function (assert) {
-    const towerState = TowerState.getDefault();
+    const towerState = TowerState.getBySize(3);
     const moveHitsory = new MoveDiskHistory();
 
     const game = new Game(towerState, moveHitsory);

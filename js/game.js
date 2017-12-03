@@ -6,10 +6,6 @@ const TOWER = {
 
 class TowerState
 {
-    static getDefault() {
-        return TowerState.getBySize(3);
-    }
-
     static getBySize(size) {
         const disks = [];
         for (let current = size; current > 0; --current) {
@@ -186,8 +182,14 @@ class Game
      * @returns {boolean}
      */
     canMoveBetween(fromTowerIndex, toTowerIndex) {
-        const toTower = this.towerState[toTowerIndex];
         const fromTower = this.towerState[fromTowerIndex];
+
+        if (fromTower.isEmpty()) {
+            return false;
+        }
+
+        const toTower = this.towerState[toTowerIndex];
+
         return toTower.isEmpty() || toTower.getTop() > fromTower.getTop();
     }
 }
